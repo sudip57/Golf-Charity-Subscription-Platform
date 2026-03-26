@@ -138,7 +138,7 @@ const Scores = () => {
         <div className="lg:col-span-4 space-y-8">
           
           {/* DYNAMIC DRAW STATUS CARD */}
-          <section className="rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden transition-all duration-500" 
+          <section className="rounded-2xl p-8 shadow-2xl relative overflow-hidden transition-all duration-500" 
             style={{ backgroundColor: hasWon ? theme.accent : theme.primary, color: theme.textOnDark }}>
             <div className="relative z-10 space-y-6">
               <div className="flex items-center gap-2" style={{ color: hasWon ? theme.primary : theme.accent }}>
@@ -172,7 +172,7 @@ const Scores = () => {
           </section>
 
           {/* INPUT FORM */}
-          <section className="bg-white rounded-[2.5rem] p-8 border shadow-xl shadow-black/5 relative overflow-hidden" style={{ borderColor: theme.border }}>
+          <section className="bg-white rounded-2xl p-8 border shadow-xl shadow-black/5 relative overflow-hidden" style={{ borderColor: theme.border }}>
             {!isPro && <LockedOverlay theme={theme} />}
             <h2 className="text-xl font-black mb-6 flex items-center gap-2" style={{ color: theme.primary }}>
               <Zap className="w-5 h-5 fill-current" style={{ color: theme.accent }} />
@@ -221,7 +221,7 @@ const Scores = () => {
 
         {/* RIGHT COLUMN: REVERSE CHRONOLOGICAL HISTORY */}
         <div className="lg:col-span-8">
-          <div className="bg-white rounded-[2.5rem] p-8 border shadow-xl shadow-black/5 min-h-[600px] relative overflow-hidden" style={{ borderColor: theme.border }}>
+          <div className="bg-white rounded-2xl p-8 border shadow-xl shadow-black/5 min-h-[600px] relative overflow-hidden" style={{ borderColor: theme.border }}>
             {!isPro && <LockedOverlay theme={theme} title="History Restricted" />}
             
             <div className="flex items-center justify-between mb-10">
@@ -276,7 +276,7 @@ const Scores = () => {
 
 const EmptyState = ({ theme, isPro }) => (
   <div className="flex flex-col items-center justify-center py-24 text-center px-6">
-    <div className="w-24 h-24 rounded-[2.5rem] bg-slate-50 flex items-center justify-center mb-6">
+    <div className="w-24 h-24 rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
       <Target className="w-10 h-10 opacity-10" style={{ color: theme.primary }} />
     </div>
     <h3 className="text-xl font-black" style={{ color: theme.primary }}>{isPro ? "Log your first round" : "History is empty"}</h3>

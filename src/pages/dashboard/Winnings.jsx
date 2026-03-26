@@ -136,19 +136,19 @@ const Winnings = () => {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-5">
-                        <div className={`p-4 rounded-3xl transition-colors ${isSelected ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                        <div className={`p-4 rounded-2xl transition-colors ${isSelected ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-400'}`}>
                           <IndianRupee className="w-6 h-6" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
                             <h3 className="font-black text-xl" style={{ color: theme.primary }}>₹{w.prize}</h3>
-                            <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-tighter ${status.color}`}>
+                            <span className={`px-3 py-1 rounded-2xl text-[9px] font-black uppercase tracking-tighter ${status.color}`}>
                               {status.label}
                             </span>
                           </div>
                           <div className="flex gap-1.5 mt-2">
                             {w.draws?.winning_numbers?.map((num, i) => (
-                              <span key={i} className="w-7 h-7 flex items-center justify-center text-[10px] font-bold rounded-xl border bg-white shadow-sm" style={{ color: theme.primary }}>{num}</span>
+                              <span key={i} className="w-7 h-7 flex items-center justify-center text-[10px] font-bold rounded-2xl border bg-white shadow-sm" style={{ color: theme.primary }}>{num}</span>
                             ))}
                           </div>
                         </div>
@@ -164,7 +164,7 @@ const Winnings = () => {
 
         {/* 3. RIGHT: ACTION PANEL (SUBMISSION) */}
         <div className="lg:col-span-5">
-          <div className="sticky top-24 bg-white border-2 rounded-[3rem] p-8 shadow-2xl shadow-emerald-900/5 relative overflow-hidden" style={{ borderColor: theme.border }}>
+          <div className="sticky top-24 bg-white border-2 rounded-2xl p-8 shadow-2xl shadow-emerald-900/5 relative overflow-hidden" style={{ borderColor: theme.border }}>
             
             {!isPro && <ProLockOverlay theme={theme} />}
 
@@ -186,7 +186,7 @@ const Winnings = () => {
                     <div className="relative group">
                       <input type="file" ref={fileInputRef} onChange={handleFileChange} className="hidden" id="proof-upload" disabled={!isPro || !selectedWinnerId} />
                       <label htmlFor="proof-upload" 
-                        className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-[2.5rem] transition-all
+                        className={`flex flex-col items-center justify-center w-full h-48 border-2 border-dashed rounded-2xl transition-all
                           ${selectedWinnerId ? 'cursor-pointer hover:bg-slate-50' : 'opacity-30 cursor-not-allowed'}`}
                         style={{ backgroundColor: theme.bg, borderColor: theme.border }}>
                         
@@ -237,10 +237,10 @@ const Winnings = () => {
 /* --- SUB-COMPONENTS --- */
 
 const StepCard = ({ number, title, desc, active, done, theme }) => (
-  <div className={`p-5 rounded-[2rem] border-2 transition-all ${active ? 'bg-white shadow-lg' : 'bg-transparent opacity-40'}`}
+  <div className={`p-5 rounded-2xl border-2 transition-all ${active ? 'bg-white shadow-lg' : 'bg-transparent opacity-40'}`}
     style={{ borderColor: active ? theme.accent : 'transparent' }}>
     <div className="flex items-center gap-4">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-sm transition-colors
+      <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-black text-sm transition-colors
         ${done ? 'bg-emerald-500 text-white' : active ? 'bg-emerald-500 text-white' : 'bg-slate-200 text-slate-500'}`}>
         {done ? <CheckCircle2 className="w-5 h-5" /> : number}
       </div>
@@ -254,7 +254,7 @@ const StepCard = ({ number, title, desc, active, done, theme }) => (
 
 const ProLockOverlay = ({ theme }) => (
   <div className="absolute inset-0 z-30 backdrop-blur-md bg-white/60 flex flex-col items-center justify-center p-8 text-center">
-    <div className="p-4 rounded-3xl mb-4 shadow-xl bg-white" style={{ color: theme.accent }}>
+    <div className="p-4 rounded-2xl mb-4 shadow-xl bg-white" style={{ color: theme.accent }}>
       <Crown className="w-8 h-8" />
     </div>
     <h3 className="font-black text-xl mb-2" style={{ color: theme.primary }}>Unlock Payouts</h3>
@@ -269,7 +269,7 @@ const ProLockOverlay = ({ theme }) => (
 
 const SuccessCard = ({ theme }) => (
   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center py-10">
-    <div className="w-20 h-20 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-emerald-200">
+    <div className="w-20 h-20 bg-emerald-500 text-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl shadow-emerald-200">
       <CheckCircle2 className="w-10 h-10" />
     </div>
     <h3 className="text-2xl font-black mb-2" style={{ color: theme.primary }}>Claim Submitted!</h3>
@@ -287,7 +287,7 @@ const Stat = ({ theme, icon, label, value }) => (
 );
 
 const EmptyState = ({ theme }) => (
-  <div className="border-4 border-dashed rounded-[3rem] py-24 text-center opacity-30" style={{ borderColor: theme.border }}>
+  <div className="border-4 border-dashed rounded-2xl py-24 text-center opacity-30" style={{ borderColor: theme.border }}>
     <Trophy className="w-16 h-16 mx-auto mb-4" />
     <p className="font-black text-lg">No wins recorded yet.</p>
     <p className="text-xs font-bold uppercase tracking-widest">Keep playing to see your name here!</p>
@@ -296,9 +296,9 @@ const EmptyState = ({ theme }) => (
 
 const Loader = ({ theme }) => (
   <div className="flex items-center gap-2">
-    <div className="w-2 h-2 rounded-full animate-bounce bg-white" />
-    <div className="w-2 h-2 rounded-full animate-bounce bg-white [animation-delay:-.3s]" />
-    <div className="w-2 h-2 rounded-full animate-bounce bg-white [animation-delay:-.5s]" />
+    <div className="w-2 h-2 rounded-2xl animate-bounce bg-white" />
+    <div className="w-2 h-2 rounded-2xl animate-bounce bg-white [animation-delay:-.3s]" />
+    <div className="w-2 h-2 rounded-2xl animate-bounce bg-white [animation-delay:-.5s]" />
   </div>
 );
 

@@ -109,7 +109,7 @@ const Charities = () => {
   return (
     <div className="p-6 space-y-8 max-w-7xl mx-auto transition-colors duration-500">
       {/* HEADER */}
-      <div className="flex justify-between items-end bg-white p-8 rounded-[2.5rem] border shadow-xl shadow-black/5"
+      <div className="flex flex-col sm:flex-row justify-between gap-2 sm:items-end bg-white p-8 rounded-[2.5rem] border shadow-xl shadow-black/5"
            style={{ borderColor: theme.border }}>
         <div>
           <h1 className="text-3xl font-black tracking-tight" style={{ color: theme.primary }}>Charity Directory</h1>
@@ -120,7 +120,7 @@ const Charities = () => {
           className="rounded-2xl px-6 py-4 shadow-lg transition-transform hover:scale-105"
           style={{ backgroundColor: theme.primary, color: '#fff' }}
         >
-          <Plus className="w-5 h-5 mr-2" /> Add New Charity
+          <Plus className="sm:w-5 sm:h-5 mr-2" /> Add New Charity
         </Button>
       </div>
 

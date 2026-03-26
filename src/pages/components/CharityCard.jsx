@@ -5,10 +5,10 @@ const CharityCard = ({ charity, isSelected, isUpdating, onSelect, theme }) => {
   return (
     <motion.div
       layout
-      className="group relative flex flex-col bg-white rounded-[2.5rem] border-2 transition-all p-3 shadow-sm hover:shadow-md"
+      className="group relative flex flex-col bg-white rounded-2xl border-2 transition-all p-3 shadow-sm hover:shadow-md"
       style={{ borderColor: isSelected ? theme.accent : 'transparent' }}
     >
-      <div className="relative h-56 w-full overflow-hidden rounded-[2rem]">
+      <div className="relative h-56 w-full overflow-hidden rounded-2xl">
         <img 
           src={charity.image_url} 
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 

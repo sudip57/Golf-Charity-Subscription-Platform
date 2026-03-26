@@ -113,7 +113,7 @@ const Charities = () => {
       </div>
 
       {/* 2. IMPACT & SLIDER SECTION (NOW OPEN TO ALL) */}
-      <section className="bg-white border rounded-[2.5rem] p-8 md:p-10 shadow-xl relative overflow-hidden" style={{ borderColor: theme.border }}>
+      <section className="bg-white border rounded-2xl p-8 md:p-10 shadow-xl relative overflow-hidden" style={{ borderColor: theme.border }}>
         <style>{`
           .impact-slider {
             -webkit-appearance: none;
@@ -155,7 +155,7 @@ const Charities = () => {
           </div>
 
           {/* Direct Donation */}
-          <div className="lg:col-span-3 relative overflow-hidden rounded-[2.5rem] p-8 border group bg-slate-50" style={{ borderColor: theme.border }}>
+          <div className="lg:col-span-3 relative overflow-hidden rounded-xl p-8 border group bg-slate-50" style={{ borderColor: theme.border }}>
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
               <div className="space-y-4">
                 <div className="flex items-center gap-2 mb-2" style={{ color: theme.accent }}>
