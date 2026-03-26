@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { 
-  Users, Globe, Zap, ShieldCheck, Award, Activity 
+  Users, Globe, Zap, ShieldCheck, Award, Activity, PlusCircle, Heart 
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import { motion } from 'framer-motion';
 import { THEMES } from '../../components/ui/theme';
 import SpotlightCarousel from '../components/SpotlightCarousel'; 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Button from '../../components/ui/Button';
+
 const THEME = THEMES.forestEthos;
 
 const Overview = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [status, setStatus] = useState('loading');
   const [featuredCharities, setFeaturedCharities] = useState([]);
   const [charityLoading, setCharityLoading] = useState(true);
@@ -55,7 +58,6 @@ const Overview = () => {
     fetchDashboardData();
   }, [user]);
 
-  // Mock function for the carousel prop (since Overview doesn't update user charity usually)
   const handleNoOp = () => console.log("Navigation only mode");
 
   return (
@@ -64,32 +66,36 @@ const Overview = () => {
       style={{ backgroundColor: THEME.bg }}
     >
       {/* HEADER SECTION */}
-      <header className="pt-6 md:pt-8 space-y-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <header className="pt-6 md:pt-10 space-y-10">
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-8">
+          
+          {/* Title Branding */}
           <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{delay:0.300}}>
             <div className="flex items-center gap-2 font-black text-[10px] uppercase tracking-[0.3em] mb-3" style={{ color: THEME.primary }}>
               <span className="w-8 h-[2px]" style={{ backgroundColor: THEME.accent }}></span>
               Impact Hub
             </div>
-            <h1 className="text-4xl md:text-7xl font-black tracking-tighter leading-none" style={{ color: THEME.primary }}>
+            <h1 className="text-5xl md:text-7xl font-black tracking-tighter leading-[0.9]" style={{ color: THEME.primary }}>
               The world is <span style={{ color: THEME.accent }}>better</span> <br className="hidden md:block"/> with you.
             </h1>
           </motion.div>
 
-          <div 
-            className="inline-flex items-center gap-3 bg-white/60 backdrop-blur-md p-2 pl-5 rounded-[2rem] border shadow-sm"
-            style={{ borderColor: THEME.border }}
-          >
-             <div className="text-left">
-                <p className="text-[9px] font-black uppercase tracking-widest leading-none opacity-60" style={{ color: THEME.primary }}>Rank</p>
-                <p className="text-sm font-black" style={{ color: THEME.primary }}>{isPro ? 'Pro Contributor' : 'Member'}</p>
-             </div>
-             <div 
-                className="p-3 rounded-2xl text-white"
-                style={{ backgroundColor: isPro ? THEME.accent : THEME.border, color: isPro ? 'white' : THEME.primary }}
-             >
-                {isPro ? <ShieldCheck className="w-5 h-5" /> : <Zap className="w-5 h-5" />}
-             </div>
+          {/* 🟢 ACTION CENTER */}
+          <div className="flex flex-wrap items-center gap-4 bg-white/40 backdrop-blur-xl p-3 rounded-[2.5rem] border border-white shadow-2xl shadow-black/5">
+            
+            {/* Rank Status (Integrated into Action Bar) */}
+            <div className="hidden sm:flex items-center gap-3 pl-4 pr-6 border-r border-dashed" style={{ borderColor: `${THEME.primary}20` }}>
+                <div className="text-left">
+                  <p className="text-[8px] font-black uppercase tracking-[0.2em] opacity-40" style={{ color: THEME.primary }}>Member Rank</p>
+                  <p className="text-xs font-black uppercase tracking-tight" style={{ color: THEME.primary }}>{isPro ? 'Pro Contributor' : 'Standard'}</p>
+                </div>
+                <div 
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-white shrink-0"
+                  style={{ backgroundColor: isPro ? THEME.accent : THEME.primary }}
+                >
+                  {isPro ? <ShieldCheck className="w-4 h-4" /> : <Zap className="w-4 h-4" />}
+                </div>
+            </div>
           </div>
         </div>
 
@@ -124,13 +130,32 @@ const Overview = () => {
       {!charityLoading && (
         <SpotlightCarousel 
           featuredCharities={featuredCharities}
-          userProfile={null} // Passing null keeps it in "CTA" mode rather than "Selection" mode
+          userProfile={null} 
           isUpdating={false}
           onUpdateCharity={handleNoOp}
           theme={THEME}
         />
       )}
+                {/* Buttons Group */}
+            <div className="flex items-center  gap-3 w-full sm:w-auto">
+                <Button
+                  onClick={() => navigate('/dashboard/scores')}
+                  className="flex-grow sm:flex-none group px-6 py-4 rounded-2xl font-black text-[9px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95 shadow-lg"
+                  style={{ backgroundColor: THEME.primary, color: 'white' }}
+                >
+                  <PlusCircle className="w-4 h-4 group-hover:rotate-90 transition-transform duration-500" />
+                  Contribute Score
+                </Button>
 
+                <Button
+                  onClick={() => navigate('/dashboard/charities')}
+                  className="flex-grow sm:flex-none group px-6 py-4 rounded-2xl font-black text-[9px] uppercase tracking-[0.2em] flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-95 shadow-lg border-2"
+                  style={{ borderColor: THEME.accent, color: THEME.accent, backgroundColor: 'transparent' }}
+                >
+                  <Heart className="w-4 h-4 group-hover:scale-125 transition-transform duration-500 fill-current" />
+                  Direct Donate
+                </Button>
+            </div>
       {/* ACTIVITY & PRO SECTION */}
       <div className="grid lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-white border rounded-[3rem] p-8 md:p-12 shadow-xl shadow-black/5" style={{ borderColor: THEME.border }}>
@@ -154,31 +179,33 @@ const Overview = () => {
             ))}
           </div>
         </div>
-
-       { !isPro ? (<div 
+            
+       { !isPro ? (
+        <div 
           className="rounded-[3rem] p-10 flex flex-col justify-between relative overflow-hidden shadow-2xl"
-          style={{ backgroundColor: isPro ? THEME.primary : THEME.accent, color: THEME.textOnDark }}
+          style={{ backgroundColor: THEME.accent, color: THEME.textOnDark }}
         >
           <div className="relative z-10">
             <div className="w-16 h-16 bg-white/10 backdrop-blur-lg rounded-3xl flex items-center justify-center mb-8 border border-white/20">
-               {isPro ? <Award className="w-8 h-8" /> : <ShieldCheck className="w-8 h-8" />}
+               <ShieldCheck className="w-8 h-8" />
             </div>
             <h3 className="text-4xl font-black leading-none tracking-tighter mb-6">
-              {isPro ? "The Impact Master." : "Fuel the Future."}
+              Fuel the Future.
             </h3>
             <p className="opacity-80 text-base font-medium leading-relaxed">
-              {isPro ? "Access bespoke impact dossiers." : "Unlock 10x impact multiplier."}
+              Unlock 10x impact multiplier and exclusive draws.
             </p>
           </div>
-           <Link to="/payment">
-          <button 
-            className="mt-12 w-full py-5 rounded-2xl font-black transition-all shadow-xl uppercase tracking-widest text-sm"
-            style={{ backgroundColor: THEME.bg, color: isPro ? THEME.primary : THEME.accent }}
-          >
-            Upgrade Now
-          </button>
+          <Link to="/payment">
+            <button 
+              className="mt-12 w-full py-5 rounded-2xl font-black transition-all shadow-xl uppercase tracking-widest text-sm"
+              style={{ backgroundColor: THEME.bg, color: THEME.accent }}
+            >
+              Upgrade Now
+            </button>
           </Link>
-        </div>):""}
+        </div>
+        ) : ""}
       </div>
     </div>
   );
