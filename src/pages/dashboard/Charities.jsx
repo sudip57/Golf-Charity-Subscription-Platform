@@ -2,14 +2,22 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { supabase } from '../../lib/supabase';
 import { THEMES } from '../../components/ui/theme';
-import { Heart, Loader2, Search, Coins, Sparkles, ExternalLink } from 'lucide-react';
+import { Heart, Loader2, Search, Sparkles, ChevronDown, Filter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import Button from '../../components/ui/Button';
 
 // Sub-components
 import SpotlightCarousel from '../components/SpotlightCarousel';
 import CharityCard from '../components/CharityCard';
+
+const CATEGORIES = [
+  "All Missions",
+  "Environment",
+  "Education",
+  "Health",
+  "Humanitarian",
+  "Animal Welfare"
+];
 
 const Charities = () => {
   const theme = THEMES.forestEthos;
@@ -21,6 +29,7 @@ const Charities = () => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [isProcessingDonation, setIsProcessingDonation] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("All Missions");
   const [donationAmount, setDonationAmount] = useState(10);
 
   useEffect(() => {
@@ -85,9 +94,12 @@ const Charities = () => {
     }
   };
 
-  const filteredCharities = charities.filter(c =>
-    c.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Enhanced filtering logic
+  const filteredCharities = charities.filter(c => {
+    const matchesSearch = c.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = selectedCategory === "All Missions" || c.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
 
   if (loading) return (
     <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
@@ -101,7 +113,7 @@ const Charities = () => {
   return (
     <div className="min-h-full space-y-12 pb-20 px-4 transition-colors duration-500" style={{ backgroundColor: theme.bg }}>
       
-      {/* 1. FEATURED SECTION (NOW OPEN TO ALL) */}
+      {/* 1. FEATURED SECTION */}
       <div className="relative">
         <SpotlightCarousel 
             featuredCharities={charities.filter(c => c.is_featured)}
@@ -112,7 +124,7 @@ const Charities = () => {
         />
       </div>
 
-      {/* 2. IMPACT & SLIDER SECTION (NOW OPEN TO ALL) */}
+      {/* 2. IMPACT & SLIDER SECTION */}
       <section className="bg-white border rounded-2xl p-8 md:p-10 shadow-xl relative overflow-hidden" style={{ borderColor: theme.border }}>
         <style>{`
           .impact-slider {
@@ -154,7 +166,6 @@ const Charities = () => {
             </div>
           </div>
 
-          {/* Direct Donation */}
           <div className="lg:col-span-3 relative overflow-hidden rounded-xl p-8 border group bg-slate-50" style={{ borderColor: theme.border }}>
             <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
               <div className="space-y-4">
@@ -196,31 +207,69 @@ const Charities = () => {
             <h2 className="text-4xl font-black tracking-tight" style={{ color: theme.primary }}>Explore charities</h2>
             <p className="text-sm font-medium opacity-50 mt-1">Select a mission to support through your automated impact.</p>
           </div>
-          <div className="relative w-full md:w-72">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40" style={{ color: theme.primary }} />
-            <input 
-              type="text" 
-              placeholder="Search missions..." 
-              value={searchTerm} 
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-12 pr-6 py-4 bg-white border rounded-2xl text-sm w-full outline-none focus:ring-4" 
-              style={{ borderColor: theme.border, '--tw-ring-color': `${theme.accent}20` }} 
-            />
+          
+          <div className="flex flex-col sm:flex-row items-center gap-3 w-full md:w-auto">
+            {/* 🟢 Category Dropdown */}
+            <div className="relative w-full sm:w-48 group">
+              <Filter className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40 z-10" style={{ color: theme.primary }} />
+              <select 
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+                className="appearance-none pl-11 pr-10 py-4 bg-white border rounded-2xl text-xs font-bold w-full outline-none focus:ring-4 transition-all cursor-pointer"
+                style={{ 
+                  borderColor: theme.border, 
+                  '--tw-ring-color': `${theme.accent}20`,
+                  color: theme.primary 
+                }}
+              >
+                {CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40 pointer-events-none" />
+            </div>
+
+            {/* Search Input */}
+            <div className="relative w-full md:w-72">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 opacity-40" style={{ color: theme.primary }} />
+              <input 
+                type="text" 
+                placeholder="Search missions..." 
+                value={searchTerm} 
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-12 pr-6 py-4 bg-white border rounded-2xl text-xs font-bold w-full outline-none focus:ring-4" 
+                style={{ borderColor: theme.border, '--tw-ring-color': `${theme.accent}20` }} 
+              />
+            </div>
           </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredCharities.map((charity) => (
-              <CharityCard 
-                key={charity.id} 
-                charity={charity} 
-                isSelected={userProfile?.selected_charity_id === charity.id}
-                isUpdating={isUpdating}
-                onSelect={handleUpdateCharity}
-                theme={theme}
-                isLocked={false} 
-              />
-            ))}
+            <AnimatePresence>
+                {filteredCharities.length > 0 ? (
+                    filteredCharities.map((charity) => (
+                      <motion.div
+                        key={charity.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                      >
+                        <CharityCard 
+                            charity={charity} 
+                            isSelected={userProfile?.selected_charity_id === charity.id}
+                            isUpdating={isUpdating}
+                            onSelect={handleUpdateCharity}
+                            theme={theme}
+                            isLocked={false} 
+                        />
+                      </motion.div>
+                    ))
+                ) : (
+                    <div className="col-span-full py-20 text-center opacity-40">
+                        <p className="font-black uppercase tracking-widest">No missions found in this category.</p>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
       </div>
     </div>
