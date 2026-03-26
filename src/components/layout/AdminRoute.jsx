@@ -19,7 +19,7 @@ const AdminRoute = ({ children }) => {
   }
 
   // Check for admin role
-  if (user.email !== 'sudiptarafdar756@gmail.com') {
+  if (user.email !== 'testadmin123@gmail.com') {
     return <Navigate to="/admin/login" replace />;
   }
 
