@@ -155,7 +155,7 @@ const Overview = () => {
           </div>
         </div>
 
-        <div 
+       { !isPro ? (<div 
           className="rounded-[3rem] p-10 flex flex-col justify-between relative overflow-hidden shadow-2xl"
           style={{ backgroundColor: isPro ? THEME.primary : THEME.accent, color: THEME.textOnDark }}
         >
@@ -175,10 +175,10 @@ const Overview = () => {
             className="mt-12 w-full py-5 rounded-2xl font-black transition-all shadow-xl uppercase tracking-widest text-sm"
             style={{ backgroundColor: THEME.bg, color: isPro ? THEME.primary : THEME.accent }}
           >
-            {isPro ? "View Dossier" : "Upgrade Now"}
+            Upgrade Now
           </button>
           </Link>
-        </div>
+        </div>):""}
       </div>
     </div>
   );
