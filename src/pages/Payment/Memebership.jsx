@@ -9,7 +9,7 @@ import {
 import { useNavigate } from 'react-router-dom'; // Using navigate for programmatic redirects
 import Button from '../../components/ui/Button';
 import { THEMES } from '../../components/ui/theme';
-const API_BASE_URL = import.meta.env.STRIPE_PAYMENT_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_STRIPE_PAYMENT_API_URL;
 const Membership = () => {
   const theme = THEMES.forestEthos;
   const { user } = useAuth();

@@ -8,7 +8,7 @@ import { THEMES } from '../../components/ui/theme';
 import Button from '../../components/ui/Button';
 
 // Configuration: Fallback to localhost if the env variable isn't set
-const API_BASE_URL = import.meta.env.STRIPE_PAYMENT_API_URL || 'http://localhost:5000';
+const API_BASE_URL = import.meta.env.VITE_STRIPE_PAYMENT_API_URL || 'http://localhost:5000';
 
 const Subscription = () => {
   const theme = THEMES.forestEthos;
